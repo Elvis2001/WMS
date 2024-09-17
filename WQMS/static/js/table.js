@@ -1,6 +1,6 @@
 // Function to fetch and update the table with real-time data
 function updateTableData() {
-  fetch('https://wqms.onrender.com/send_data') // Replace with the actual endpoint for fetching data
+  fetch('https://water-project-11e5.onrender.com/send_data') // Replace with the actual endpoint for fetching data
     .then(response => response.json())
     .then(data => {
       console.log('Data received:', data);
@@ -20,7 +20,6 @@ function updateTableData() {
           newRow.innerHTML = `
             <td>${entry.timestamp}</td>
             <td>${entry.temperature}</td>
-            <td>${entry.ph}</td>
             <td>${entry.tds}</td>
             <td>${entry.turbidity}</td>
           `;

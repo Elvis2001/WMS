@@ -21,12 +21,6 @@ function checkDataAndShowAlerts(data, thresholdValues) {
     hideAlertForParameter();
   }
 
-  if (currentData.ph > thresholdValues.ph) {
-    showAlertForParameter('Water', currentData.ph);
-  } else if (lastShownAlertParameter === 'pH') {
-    hideAlertForParameter();
-  }
-
   if (currentData.turbidity > thresholdValues.turbidity) {
     showAlertForParameter('Water', currentData.turbidity);
   } else if (lastShownAlertParameter === 'Turbidity') {
@@ -57,7 +51,7 @@ function showAlertMessage(type, message) {
 }
 
 function fetchAndCheckData(thresholdValues) {
-  fetch('https://wqms.onrender.com/send_data')
+  fetch('https://water-project-11e5.onrender.com/send_data')
     .then(response => response.json())
     .then(data => {
       checkDataAndShowAlerts(data, thresholdValues);
@@ -69,7 +63,7 @@ function fetchAndCheckData(thresholdValues) {
 
 const sampleThresholdValues = {
   temperature: 32,
-  ph: 8.6,
+  // Removed pH threshold
   turbidity: 900,
   tds: 350,
 };

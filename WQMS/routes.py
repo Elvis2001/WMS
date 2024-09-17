@@ -11,11 +11,12 @@ alert_interval = 43200  # 12 hours minutes in seconds
 last_alert_time = None
 
 thresholdValues = {
-    'temperature': 32,  # Set your temperature threshold value
-    'ph': 8.6,          # Set your pH threshold value
+    'temperature': 32,  # Set your temperature threshold value         # Set your pH threshold value
     'turbidity': 900,    # Set your turbidity threshold value
     'tds': 350          # Set your TDS threshold value
 }
+
+
 
 
 
@@ -43,8 +44,8 @@ def receive_data():
         sensor_data = SensorData(
             temperature=data.get('temperature'),
             tds=data.get('tds'),
-            turbidity=data.get('turbidity'),
-            ph=data.get('ph')
+            turbidity=data.get('turbidity')
+            
         )
 
         db.session.add(sensor_data)
@@ -72,15 +73,13 @@ def send_email_alert(data, thresholdValues):
         last_alert_time = current_time
 
         # Create the email message
-        msg = Message('Sensor Data Alert', sender='monitoringwaterquality176@gmail.com', recipients=['davidetuonu15@gmail.com'])  # Replace with your recipient's email
+        msg = Message('Sensor Data Alert', sender='okloelvito@gmail.com', recipients=['oklosamuel50@gmail.com'])  # Replace with your recipient's email
         current_data = data
         alert_message = ''
 
         if current_data['temperature'] > thresholdValues['temperature']:
             alert_message += 'Temperature value exceeded the threshold.\n'
 
-        if current_data['ph'] > thresholdValues['ph']:
-            alert_message += 'pH value exceeded the threshold.\n'
 
         if current_data['turbidity'] > thresholdValues['turbidity']:
             alert_message += 'Turbidity value exceeded the threshold.\n'
@@ -104,8 +103,8 @@ def get_data():
                 'timestamp': item.timestamp,
                 'temperature': item.temperature,
                 'tds': item.tds,
-                'turbidity': item.turbidity,
-                'ph': item.ph
+                'turbidity': item.turbidity
+                #'ph': item.ph
             }
             data_list.append(data_entry)
         return jsonify(data_list), 200
@@ -122,7 +121,7 @@ def export_csv():
         return 'No data to export', 404
 
     # Create a DataFrame from the data
-    data_dict = [{'timestamp': entry.timestamp, 'temperature': entry.temperature, 'tds': entry.tds, 'turbidity': entry.turbidity, 'ph': entry.ph} for entry in data]
+    data_dict = [{'timestamp': entry.timestamp, 'temperature': entry.temperature, 'tds': entry.tds, 'turbidity': entry.turbidity} for entry in data]
     df = pd.DataFrame(data_dict)
 
     # Convert the DataFrame to CSV
@@ -133,6 +132,7 @@ def export_csv():
     response.headers["Content-Disposition"] = "attachment; filename=data.csv"
 
     return response
+
 
 
 

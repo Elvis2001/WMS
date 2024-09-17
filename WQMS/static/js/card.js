@@ -1,29 +1,26 @@
-// Function to fetch and update card values with real-time data
 function updateCardValues() {
-  fetch('https://wqms.onrender.com/send_data') // Replace with your Flask app's URL
-    .then(response => response.json())
+  fetch('https://water-project-11e5.onrender.com/send_data') // Fetch data from the server
+    .then(response => response.json()) // Parse the JSON data
     .then(data => {
-      console.log('Data received:', data)
-      // Assuming data is an array of objects with keys: timestamp, temperature, ph, turbidity, tds
-      if (data.length > 0) {
-        // Update Temperature Card
-        document.getElementById('temperatureValue').textContent = data[data.length - 1].temperature + '°C';
+      console.log('Data received:', data); // Log data to the console for inspection
+      if (data.length > 0) { // Check if data is available
+        // Access the most recent entry (last element in the array)
+        let latestData = data[data.length - 1];
 
-        // Update pH Card
-        document.getElementById('phValue').textContent = data[data.length - 1].ph;
+        // Update Temperature Card
+        document.getElementById('temperatureValue').textContent = latestData.temperature + '°C';
 
         // Update Turbidity Card
-        document.getElementById('turbidityValue').textContent = data[data.length - 1].turbidity + ' NTU';
+        document.getElementById('turbidityValue').textContent = latestData.turbidity + ' NTU';
 
         // Update TDS Card
-        document.getElementById('tdsValue').textContent = data[data.length - 1].tds + ' ppm';
+        document.getElementById('tdsValue').textContent = latestData.tds + ' ppm';
       }
     })
     .catch(error => {
-      console.error('Error fetching real-time data:', error);
+      console.error('Error fetching real-time data:', error); // Log any errors
     });
 }
 
-// Call the updateCardValues function periodically (e.g., every 5 seconds)
-setInterval(updateCardValues, 5000); // Adjust the interval as needed
-
+// Call the updateCardValues function periodically
+setInterval(updateCardValues, 5000); // Every 5 seconds
